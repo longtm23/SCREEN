@@ -26,7 +26,7 @@ namespace SCREEN_MRW.AUDIO
             }
             else
             {
-                MessageBox.Show("thư mục audio không tồn tại!");
+                MessageBox.Show("thư mục Audio không tồn tại!");
             }
             return dic;
         }

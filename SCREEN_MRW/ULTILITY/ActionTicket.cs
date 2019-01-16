@@ -16,11 +16,16 @@ namespace SCREEN_MRW.ULTILITY
         public const string TICKET_ACTION = "ticket_action";
 
         public const string ACTION_CALL = "call";
+        public const string ACTION_CALL_AUDIO = "call_au";
         public const string ACTION_RECALL = "recall";
         public const string ACTION_MOVE = "move";
         public const string ACTION_CANCEL = "cancel";
         public const string ACTION_FINISH = "finish";
         public const string ACTION_FEEDBACK = "feedback";
+
+        public const string ACTION_UPDATE_LABLE = "up_label";
+        public const string ACTION_DEBUG = "debug";
+
         public const string ACTION_CREATE = "create";
         public const string ACTION_RESTORE = "restore";
         public const string ACTION_ALL_RESTORE = "all_restore";
@@ -41,6 +46,7 @@ namespace SCREEN_MRW.ULTILITY
         public const string LANG_VI = "vi";
         public const string LANG_SP = "sp";
         public const string LANG_EN = "en";
+
         public const string TYPE_URL = "url";
         public const string TYPE_DATA = "data";
         public const string TICKET_NUMBER = "ticket_number";

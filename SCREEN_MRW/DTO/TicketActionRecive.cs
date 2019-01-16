@@ -8,9 +8,11 @@ namespace SCREEN_MRW.DTO
 {
     public class TicketActionRecive
     {
+        public string ticket_id { get; set; }
+        public string counter_id { get; set; }
         public string action { get; set; }
         public Ticket ticket { get; set; }
-        public Extra extra { get; set; }
+        //public Extra extra { get; set; }
     }
     public class Ticket
     {

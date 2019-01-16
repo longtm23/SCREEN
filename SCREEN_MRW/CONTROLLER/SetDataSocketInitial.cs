@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace SCREEN_MRW.CONTROLLER
 {
-   public class SetDataSocketInitial
+    public class SetDataSocketInitial
     {
        private string platform = ActionTicket.PLATFORM;
         public ObjectSend SetDataFromTicketInitial(Ticket ticket, string action)

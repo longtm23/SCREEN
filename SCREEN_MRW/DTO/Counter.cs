@@ -27,6 +27,6 @@ namespace SCREEN_MRW.DTO
 
     public class Data
     {
-        public string Cnum { get; set; }
+        public int Cnum { get; set; }
     }
 }
