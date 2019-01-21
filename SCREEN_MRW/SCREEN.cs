@@ -478,13 +478,23 @@ namespace SCREEN_MRW
                 }
 
         }
-
+        private bool isRunning = false;
         private void wmpVideo_PlayStateChange(object sender, AxWMPLib._WMPOCXEvents_PlayStateChangeEvent e)
         {
-            if (wmpVideo.playState == WMPLib.WMPPlayState.wmppsStopped)
+
+            if (wmpVideo.playState == WMPLib.WMPPlayState.wmppsPlaying)
             {
+                isRunning = true;
+            }
+
+            if (wmpVideo.playState == WMPLib.WMPPlayState.wmppsStopped ||( wmpVideo.playState == WMPLib.WMPPlayState.wmppsReady && isRunning))
+            {
+                isRunning = false;
                 this.BeginInvoke(new Action(() =>
                 {
+                    wmpVideo.close();
+                    GC.Collect(); // Start .NET CLR Garbage Collection
+                    GC.WaitForPendingFinalizers(); // Wait for Garbage Collection to finish
                     var plCollection = wmpVideo.playlistCollection.getAll();
                     if (plCollection.count > 0)
                     {
@@ -496,13 +506,14 @@ namespace SCREEN_MRW
                                 wmpVideo.playlistCollection.remove(pl);
                             }
                             catch { }
-                           
                         }
                         
                     }
                     wmpVideo.currentPlaylist = wmpVideo.newPlaylist("a", "");
                     var url = getUrlVideo();
-                    this.wmpVideo.URL = @url;
+                    var mediaItem = wmpVideo.newMedia(url);
+                    //this.wmpVideo.URL = @url;
+                    wmpVideo.currentPlaylist.appendItem(mediaItem);
                     this.wmpVideo.Ctlcontrols.play();
                 }));
             }
@@ -510,7 +521,7 @@ namespace SCREEN_MRW
 
         private void wmpVideo_MediaError(object sender, AxWMPLib._WMPOCXEvents_MediaErrorEvent e)
         {
-            wmpVideo.Ctlcontrols.stop();
+            wmpVideo.close();
             loadVideo(configMrw.folder_video);
         }
 
@@ -755,11 +766,27 @@ namespace SCREEN_MRW
             aTimersCreen.AutoReset = true;
             aTimersCreen.Enabled = true;
         }
+        int timeRestart = 0;
+        private void restartAPP()
+        {
+            timeRestart += configMrw.time_next;
+            if (timeRestart > 3600)
+            {
+                if (DateTime.Now.Hour == 23)
+                {
+                    EventScreen eventScreen = new EventScreen(true);
+                    DataReceived(eventScreen);
+                }
+                timeRestart = 0;
+            }
+           
+        }
 
         private void OnTimedScreenEvent(Object source, ElapsedEventArgs e)
         {
             try
             {
+                restartAPP();
                 if (lsPanelCounter.Count() > 1)
                 {
                     loadPanel();
@@ -957,7 +984,6 @@ namespace SCREEN_MRW
         {
             try
             {
-                var urlVideo = getUrlVideo();
                 try
                 {
                     this.wmpVideo.Update();
@@ -972,8 +998,14 @@ namespace SCREEN_MRW
 
                 }
                 catch { }
-                this.wmpVideo.URL = urlVideo;
+                wmpVideo.currentPlaylist = wmpVideo.newPlaylist("a", "");
+                var url = getUrlVideo();
+                var mediaItem = wmpVideo.newMedia(url);
+                //this.wmpVideo.URL = @url;
+                wmpVideo.currentPlaylist.appendItem(mediaItem);
                 this.wmpVideo.Ctlcontrols.play();
+                //this.wmpVideo.URL = urlVideo;
+                //this.wmpVideo.Ctlcontrols.play();
             }
             catch(Exception ex) {
                 Console.Write(ex.Message);

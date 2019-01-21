@@ -311,7 +311,7 @@ namespace SCREEN_MRW.AUDIO
         bool isPlayed = false;
         private void audio_PlayStateChange1(int newState)
         {
-            status = wplayer.status;
+            status = wplayer.status;       
             if (newState == 3)
             {
                 isPlayed = true;
@@ -331,7 +331,7 @@ namespace SCREEN_MRW.AUDIO
                 }
                 else if (fileNums != null && fileNums.Count > 0)
                 {
-
+                    
                     InitPlayAudio(fileNums.First());
                 }
             }
