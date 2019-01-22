@@ -203,12 +203,12 @@ namespace SCREEN_MRW.AUDIO
         {
             try
             {
-                if (objAudioCache != null)
-                {
-                    EventAudio evenAuUp = new EventAudio(ActionTicket.ACTION_UPDATE_LABLE, null, null, objAudioCache);
-                    DataReceived(evenAuUp);
-                    objAudioCache = null;
-                }
+                //if (objAudioCache != null)
+                //{
+                //    EventAudio evenAuUp = new EventAudio(ActionTicket.ACTION_UPDATE_LABLE, null, null, objAudioCache);
+                //    DataReceived(evenAuUp);
+                //    objAudioCache = null;
+                //}
                 mQueue.WaitOne();
                 var objAudio = this.sendQueueByNum.Dequeue();
                 mQueue.ReleaseMutex();
